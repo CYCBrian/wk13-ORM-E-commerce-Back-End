@@ -16,7 +16,8 @@ router.get('/', async (req, res) => {
   } catch(err){
     res.status(500).json({
       message: "Internal server error. Unable to retrieve categories and their associated products.",
-      data: err}); //just err or use data: err
+      data: err
+    });
   }
 });
 
