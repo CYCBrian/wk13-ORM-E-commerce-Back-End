@@ -24,7 +24,7 @@ Product.belongsToMany(Tag,{
     model: ProductTag,
     unique: false
   },
-  as: "'product_tag",
+  as: "'product_to_tag",
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE'
 })
@@ -34,7 +34,7 @@ Tag.belongsToMany(Product,{
   through:{
     model: ProductTag,
     unique: false},
-  as: 'tag_product',
+  as: 'tag_to_product',
   onDelete:'Cascade',
   onUpdate:'Cascade'
 })

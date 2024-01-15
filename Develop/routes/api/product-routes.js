@@ -4,15 +4,43 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // The `/api/products` endpoint
 
 // get all products
-router.get('/', (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag data
+router.get('/', async (req, res) => {
+  // find all products and include their associated Category and Tag data
+  try {
+    const findAllProducts = await Product.findAll({
+      include:[Category, {model: Tag, through:ProductTag, as: 'product_to_tag'}]
+    });
+    res.status(200).json({
+      message: "All products retrieved with their associated category and tags.",
+      data: findAllProducts
+    });
+  } catch(err){
+    res.status(500).json({
+      message: "Internal server error. Unable to retrieve products and their associated category and tags.",
+      data: err}); //just err or use data: err
+  }
 });
 
 // get one product
-router.get('/:id', (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+router.get('/:id', async (req, res) => {
+  // find a single product by its `id`and include its associated Category and Tag data
+  try{
+    const findOneProduct = await Product.findByPk(req.params.id,{
+      include:[Category, {model: Tag, through:ProductTag, as: 'product_to_tag'}]
+    });
+    if(!findOneProduct){
+      res.status(404).json({message:"No product found with this id."});
+      return;
+    }
+    res.status(200).json({
+      message:"Product retrieved with its associated category and tags.",
+      data: findOneProduct
+  });
+} catch(err){
+  res.status(500).json({
+    message: "Internal server error. Unable to retrieve product and its associated category and tags.",
+    data: err});
+}
 });
 
 // create new product
@@ -92,8 +120,28 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
+  try{
+    const deleteProduct = await Product.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    if(!deleteProduct) {
+      res.status(404).json({message:"No product found with this id."})
+      return
+    }
+    res.status(200).json({
+      message: "Product deleted.",
+      data: deleteProduct
+    });
+  } catch(err){
+    res.status(500).json({
+      message: "Internal server error. Unable to delete product.",
+      data: err
+    })
+  }
 });
 
 module.exports = router;
