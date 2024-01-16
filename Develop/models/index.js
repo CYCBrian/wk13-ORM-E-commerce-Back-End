@@ -33,10 +33,11 @@ Product.belongsToMany(Tag,{
 Tag.belongsToMany(Product,{
   through:{
     model: ProductTag,
-    unique: false},
+    unique: false
+  },
   as: 'tag_to_product',
-  onDelete:'Cascade',
-  onUpdate:'Cascade'
+  onDelete:'CASCADE',
+  onUpdate:'CASCADE'
 })
 
 module.exports = {
