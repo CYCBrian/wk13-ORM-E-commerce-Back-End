@@ -24,7 +24,7 @@ Product.belongsToMany(Tag,{
     model: ProductTag,
     unique: false
   },
-  as: "'product_to_tag",
+  as: "product_to_tag",
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE'
 })
