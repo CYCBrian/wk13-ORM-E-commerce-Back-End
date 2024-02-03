@@ -66,8 +66,8 @@ Using Insomnia or a similar app, you can interact with the server in the followi
         "product_name": "string",
         "price": string,
         "stock": string,
-			  "category_id": integer,
-			  "tagIds": [integer]
+		"category_id": integer,
+		"tagIds": [integer]
       }
 
 
